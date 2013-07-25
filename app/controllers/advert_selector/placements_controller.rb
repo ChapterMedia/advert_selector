@@ -45,8 +45,7 @@ module AdvertSelector
     # POST /placements
     # POST /placements.json
     def create
-      @placement = Placement.new(params[:placement])
-      permit_params
+      @placement = Placement.new(permit_params)
   
       respond_to do |format|
         if @placement.save
@@ -63,10 +62,9 @@ module AdvertSelector
     # PUT /placements/1.json
     def update
       @placement = Placement.find(params[:id])
-      permit_params
   
       respond_to do |format|
-        if @placement.update_attributes(params[:placement])
+        if @placement.update_attributes(permit_params)
           format.html { redirect_to @placement, :notice => 'Placement was successfully updated.' }
           format.json { head :no_content }
         else
