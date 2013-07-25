@@ -58,7 +58,7 @@ module AdvertSelector
     # POST /banners
     # POST /banners.json
     def create
-      @banner = Banner.new(params[:banner])
+      @banner = Banner.new(permit_params)
   
       respond_to do |format|
         if @banner.save
@@ -77,7 +77,7 @@ module AdvertSelector
       @banner = Banner.find(params[:id])
   
       respond_to do |format|
-        if @banner.update_attributes(params[:banner])
+        if @banner.update_attributes(permit_params)
           format.html { redirect_to @banner, :notice => 'Banner was successfully updated.' }
           format.json { head :no_content }
         else
@@ -116,6 +116,12 @@ module AdvertSelector
         format.html { redirect_to banners_url }
         format.json { head :no_content }
       end
+    end
+    
+    private
+    
+      def permit_params
+      params.require(:banner).permit!
     end
 
   end
